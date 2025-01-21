@@ -1,0 +1,82 @@
+#include <iostream>
+using namespace std;
+
+int Vector[100]; // Creando el vector
+int contador=0; // Creando un contador para los elementos del vector
+
+void Insertar(int elemento) // Subfuncion para insertar elementos en el vector
+{
+	if( contador < 100 ) // Solo se pueden insertar elementos en el vector mientras no se pase del limite
+	{
+		Vector[contador++] = elemento; // Inserta el elemento al vector
+	}
+}
+
+void Mostrar() // Subfuncion que muestra los elementos del vector y su cantidad
+{
+	cout << "Elementos en el arreglo: "; 
+	for (int i = 0; i < contador; i++)
+	{
+		cout << Vector[i] << " ";
+	}
+	cout << endl;
+	cout << "Cantidad de elementos almacenados:" << contador <<endl;
+}
+
+int Buscar(int elemento) // Verifica si el elemento a borrar se encuentra en el arreglo
+{
+    for (int i = 0; i < contador; i++) 
+	{
+        if (Vector[i] == elemento) 
+		{
+            return i; // Devuelve la posición del elemento si lo encuentra
+        }
+    }
+    return -1; // Devuelve -1 si no encuentra el elemento
+}
+
+void Borrar(int elemento) // Subfuncion que borrar el elemento de la arreglo
+{
+    int posicion = Buscar(elemento); // Llama a la subfunción Buscar
+    if (posicion != -1) 
+	{ 
+        for (int i = posicion; i < contador - 1; i++) 
+		{
+            Vector[i] = Vector[i + 1]; // Desplaza los elementos hacia la izquierda
+        }
+        contador--; // Actualiza la cantidad de elementos luego de borrar un elemento
+        cout << "Elemento " << elemento << " eliminado correctamente." << endl;
+    } else 
+	{
+        cout << "Elemento " << elemento << " no encontrado." << endl;
+    }
+}
+
+int main() 
+{
+	Insertar(10);  // Inserta el elemento 10
+	Insertar(20);  // Inserta elemento 20
+	Insertar(30);  // Inserta elemento 30
+	
+	Mostrar();  // Muestra los elementos del arreglo
+	
+	Borrar(20); // Borra el elemento 20
+    Mostrar();  // Muestra los elementos del arreglo después de eliminar
+
+    Borrar(40); // Intenta borrar un elemento que no existe
+    Mostrar();  // Muestra los elementos del arreglo después
+	
+	return 0;
+}
+
+/****************
+Tarea 1 es borrar
+
+	gVect : 10, 20, 30
+
+    Delete(20)
+	Se supone que primero deben buscar el elemento Search()
+
+	gVect : 10, 30
+
+*****************/
