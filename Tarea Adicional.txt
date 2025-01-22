@@ -1,0 +1,87 @@
+#include <iostream>
+using namespace std;
+
+template <typename Type>
+class DynamicVector {
+private:
+    Type* m_Vector = nullptr; 
+    int m_Contador = 0;     
+    int m_Maximo = 0;       
+
+    void Resize() {
+        const int aumento = 5;
+        Type* pTemporal = new Type[m_Maximo + aumento];
+        for (int i = 0; i < m_Maximo; i++) {
+            pTemporal[i] = m_Vector[i]; 
+        }
+        delete[] m_Vector;   
+        m_Vector = pTemporal;
+        m_Maximo += aumento; 
+    }
+
+public:
+    void Insertar(const Type& elemento) {
+        if (m_Contador == m_Maximo) {
+            Resize(); 
+        }
+        m_Vector[m_Contador++] = elemento;
+    }
+
+    void Mostrar() const {
+        cout << "Elementos en el arreglo: ";
+        for (int i = 0; i < m_Contador; i++) {
+            cout << m_Vector[i] << " ";
+        }
+        cout << endl;
+        cout << "Cantidad de elementos almacenados: " << m_Contador << endl;
+    }
+
+    int Buscar(const Type& elemento) const {
+        for (int i = 0; i < m_Contador; i++) {
+            if (m_Vector[i] == elemento) {
+                return i; 
+            }
+        }
+        return -1; 
+    }
+
+    void Borrar(const Type& elemento) {
+        int posicion = Buscar(elemento); 
+        if (posicion != -1) {
+            for (int i = posicion; i < m_Contador - 1; i++) {
+                m_Vector[i] = m_Vector[i + 1]; 
+            }
+            m_Contador--; 
+            cout << "Elemento " << elemento << " eliminado correctamente." << endl;
+        } else {
+            cout << "Elemento " << elemento << " no encontrado." << endl;
+        }
+    }
+
+    ~DynamicVector() {
+        delete[] m_Vector;
+    }
+};
+
+int main() {
+
+    DynamicVector<int> vectorInt;
+    vectorInt.Insertar(10);
+    vectorInt.Insertar(20);
+    vectorInt.Insertar(30);
+    vectorInt.Insertar(40);
+    vectorInt.Insertar(50);
+
+    vectorInt.Mostrar();
+
+    vectorInt.Insertar(60);
+    vectorInt.Mostrar();
+
+    vectorInt.Borrar(20); 
+    vectorInt.Mostrar();
+
+    vectorInt.Borrar(100); 
+    vectorInt.Mostrar();
+
+    return 0;
+}

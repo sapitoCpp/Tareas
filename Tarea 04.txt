@@ -1,0 +1,61 @@
+Tarea 04:
+
+#include <iostream>
+using namespace std;
+
+class CVector {
+private:
+    int* m_pVect;     
+    int m_nCount;     
+    int m_nMax;      
+    int m_nDelta;     
+
+    void Resize() {   
+        int* pTemp = new int[m_nMax + m_nDelta]; 
+        for (int i = 0; i < m_nCount; i++) {     
+            pTemp[i] = m_pVect[i];
+        }
+        delete[] m_pVect;                       
+        m_pVect = pTemp;                        
+        m_nMax += m_nDelta;                     
+    }
+
+public:
+    // Constructor que inicializa el vector dinámico
+    CVector(int delta = 10) : m_pVect(NULL), m_nCount(0), m_nMax(0), m_nDelta(delta) {}
+
+    // Destructor para liberar memoria
+    ~CVector() {
+        delete[] m_pVect;
+    }
+
+    // Método para insertar un nuevo elemento
+    void Insert(int elem) {
+        if (m_nCount == m_nMax) { 
+            Resize();
+        }
+        m_pVect[m_nCount++] = elem; 
+    }
+
+    // Método para mostrar los elementos del vector
+    void Display() {
+        cout << "Elementos en el arreglo: ";
+        for (int i = 0; i < m_nCount; i++) {
+            cout << m_pVect[i] << " ";
+        }
+        cout << endl;
+        cout << "Cantidad de elementos almacenados: " << m_nCount << endl;
+    }
+};
+
+int main() {
+    CVector myVect(5); 
+
+    myVect.Insert(10); 
+    myVect.Insert(20); 
+    myVect.Insert(30); 
+
+    myVect.Display();  
+
+    return 0;
+}

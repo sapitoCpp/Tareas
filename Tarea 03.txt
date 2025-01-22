@@ -1,0 +1,99 @@
+Tarea 03
+
+#include <iostream>
+using namespace std;
+
+struct Vector {
+    int *m_pVect; 
+    int m_nCount; 
+    int m_nMax;   
+    int m_nDelta; 
+
+    // Constructor para inicializar el Vector
+    Vector(int delta = 5) {
+        m_pVect = NULL;
+        m_nCount = 0;
+        m_nMax = 0;
+        m_nDelta = delta;
+    }
+
+    // Destructor para liberar memoria
+    ~Vector() {
+        delete[] m_pVect;
+    }
+};
+
+// Funciones de manipulación del Vector
+void Resize(Vector &vec);
+void Insert(Vector &vec, int elem);
+int Search(const Vector &vec, int elem);
+void Delete(Vector &vec, int elem);
+void Display(const Vector &vec);
+
+// Implementación de funciones
+void Resize(Vector &vec) {
+    int *pTemp = new int[vec.m_nMax + vec.m_nDelta]; 
+    for (int i = 0; i < vec.m_nMax; i++) {
+        pTemp[i] = vec.m_pVect[i]; 
+    }
+    delete[] vec.m_pVect;        
+    vec.m_pVect = pTemp;         
+    vec.m_nMax += vec.m_nDelta;   
+}
+
+void Insert(Vector &vec, int elem) {
+    if (vec.m_nCount == vec.m_nMax) {
+        Resize(vec); 
+    }
+    vec.m_pVect[vec.m_nCount++] = elem; 
+}
+
+int Search(const Vector &vec, int elem) {
+    for (int i = 0; i < vec.m_nCount; i++) {
+        if (vec.m_pVect[i] == elem) {
+            return i; 
+        }
+    }
+    return -1; 
+}
+
+void Delete(Vector &vec, int elem) {
+    int index = Search(vec, elem); 
+    if (index == -1) {
+        cout << "Elemento " << elem << " no encontrado en el vector." << endl;
+        return;
+    }
+    for (int i = index; i < vec.m_nCount - 1; i++) {
+        vec.m_pVect[i] = vec.m_pVect[i + 1]; 
+    }
+    vec.m_nCount--; 
+}
+
+void Display(const Vector &vec) {
+    cout << "Elementos en el arreglo: ";
+    for (int i = 0; i < vec.m_nCount; i++) {
+        cout << vec.m_pVect[i] << " ";
+    }
+    cout << endl;
+    cout << "Cantidad de elementos almacenados: " << vec.m_nCount << endl;
+}
+
+int main() {
+    Vector myVect(5); 
+
+    // Insertar elementos
+    Insert(myVect, 10);
+    Insert(myVect, 20);
+    Insert(myVect, 30);
+
+    // Mostrar los elementos
+    Display(myVect);
+
+    // Eliminar un elemento
+    Delete(myVect, 20);
+
+    // Mostrar los elementos después de eliminar
+    Display(myVect);
+
+    return 0;
+}
