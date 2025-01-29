@@ -1,0 +1,107 @@
+#include <iostream>
+using namespace std;
+
+struct NODE {
+    int m_data;
+    NODE* m_pNext;
+};
+
+class CLinkedList {
+private:
+    NODE* m_pRoot;
+public:
+    CLinkedList() : m_pRoot(NULL) {}
+
+    ~CLinkedList() {
+        NODE* current = m_pRoot;
+        while (current != NULL) {
+            NODE* temp = current;
+            current = current->m_pNext;
+            delete temp;
+        }
+    }
+
+    // Insertar nodo al final de la lista
+    void Insert(int data) {
+        NODE* newNode = new NODE{data, NULL};
+
+        if (m_pRoot == NULL) {
+            m_pRoot = newNode;
+        } else {
+            NODE* current = m_pRoot;
+            while (current->m_pNext != NULL) {
+                current = current->m_pNext;
+            }
+            current->m_pNext = newNode;
+        }
+    }
+
+    // Insertar nodo al inicio de la lista
+    void InsertAtBeginning(int data) {
+        NODE* newNode = new NODE{data, m_pRoot};
+        m_pRoot = newNode;
+    }
+
+    // Imprimir la lista
+    void Print() const {
+        NODE* current = m_pRoot;
+        while (current != NULL) {
+            cout << current->m_data << " -> ";
+            current = current->m_pNext;
+        }
+        cout << "NULL" << endl;
+    }
+
+    // Eliminar nodo con un valor específico
+    void Delete(int data) {
+        if (m_pRoot == NULL) return;
+
+        if (m_pRoot->m_data == data) {
+            NODE* temp = m_pRoot;
+            m_pRoot = m_pRoot->m_pNext;
+            delete temp;
+            return;
+        }
+
+        NODE* current = m_pRoot;
+        while (current->m_pNext != NULL && current->m_pNext->m_data != data) {
+            current = current->m_pNext;
+        }
+
+        if (current->m_pNext != NULL) {
+            NODE* temp = current->m_pNext;
+            current->m_pNext = current->m_pNext->m_pNext;
+            delete temp;
+        } else {
+            cout << "Valor " << data << " no encontrado en la lista!" << endl;
+        }
+    }
+};
+
+int main() {
+    CLinkedList list;
+
+    // Insertar elementos al final
+    list.Insert(10);
+    list.Insert(20);
+    list.Insert(30);
+    list.Insert(5);
+
+    cout << "Lista después de insertar elementos al final:" << endl;
+    list.Print();
+
+    // Insertar elementos al inicio
+    cout << "Insertando 100 al inicio." << endl;
+    list.InsertAtBeginning(100);
+    list.Print();
+
+    cout << "Insertando 200 al inicio." << endl;
+    list.InsertAtBeginning(200);
+    list.Print();
+
+    cout << "Eliminando 20 de la lista." << endl;
+    list.Delete(20);
+    list.Print();
+
+    return 0;
+}
