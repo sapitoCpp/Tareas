@@ -1,0 +1,69 @@
+#include <iostream>
+#define MAX_SIZE 100 
+
+using namespace std;
+
+class Cola 
+{
+private:
+    int colav[MAX_SIZE];
+    int frente;  
+    int final;   
+
+public:
+    Cola() : frente(-1), final(-1) {}
+
+    void Insert(int value) 
+    {
+        if (final == MAX_SIZE - 1) 
+        {
+            cout << "La cola está llena" << endl;
+            return;
+        }
+        if (frente == -1) frente = 0;
+        colav[++final] = value;
+    }
+
+    void Delete() 
+    {
+        if (frente == -1) 
+        {
+            cout << "La cola está vacía" << endl;
+            frente = final = -1; 
+            return;
+        }
+        frente++;
+    }
+
+    void Print() const 
+    {
+        if (frente == -1) 
+        {
+            cout << "La cola está vacía" << endl;
+            return;
+        }
+        for (int i = frente; i <= final; i++) 
+        {
+            cout << colav[i] << " , ";
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    Cola cola;
+
+    cola.Insert(10);
+    cola.Insert(20);
+    cola.Insert(30);
+    cola.Insert(5);
+
+    cout << endl;
+    cola.Print();
+
+    cout << endl;
+    cola.Delete();
+    cola.Print();
+
+    return 0;
+}

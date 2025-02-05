@@ -1,0 +1,76 @@
+#include <iostream>
+#define MAX_SIZE 100
+
+using namespace std;
+
+class Pila 
+{
+private:
+	int pilav[MAX_SIZE];  
+	int top;            
+
+public:
+	Pila() : top(-1) {}
+
+	void Push(int elemento) 
+	{
+		if (top == MAX_SIZE - 1) 
+		{
+			cout << "La pila está llena" << endl;
+			return;
+		}
+		pilav[++top] = elemento;
+	}
+
+	void Pop() 
+	{
+		if (top == -1) 
+		{
+			cout << "La pila está vacía" << endl;
+			return;
+		}
+		top--;
+	}
+
+	int Top() const 
+	{
+		if (top == -1) 
+		{
+			cout << "La pila está vacía" << endl;
+			return -1;
+		}
+		return pilav[top];
+	}
+
+	void Print() const 
+	{
+		if (top == -1) 
+		{
+			cout << "La pila está vacía" << endl;
+			return;
+		}
+		for (int i = top; i >= 0; i--) 
+		{
+			cout << pilav[i] << " , ";
+		}
+		cout << endl;
+	}
+};
+
+int main() 
+{
+	Pila pila;
+
+	pila.Push(10);
+	pila.Push(20);
+	pila.Push(30);
+	pila.Push(5);
+
+	pila.Print();
+        
+        cout << "Borrando elemento" << endl;
+	pila.Pop();
+	pila.Print();
+	
+	return 0;
+}
